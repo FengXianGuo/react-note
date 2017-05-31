@@ -7,4 +7,5 @@
 ### 二，babel
 
 1. babel基本操作
-  1. 单文件操作
+    1. 单文件操作   babel  test.js(要编译的文件名.js) —out-file (编译后想要的文件名).js
+    2.
