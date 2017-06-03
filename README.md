@@ -23,3 +23,9 @@
 ### 三，babel plugins
     1. 在.babelrc中添加“plugins”：["插件名"]，
     2. npm i plugins,使用的时候在.babelrc中添加即可
+
+### 四，babel解析react jsx语法
+
+    1. babel-preset-react
+    2. 设置预设react
+    3. 开始演出
