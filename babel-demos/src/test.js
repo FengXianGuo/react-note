@@ -1,10 +1,9 @@
-const sum = (a,b) => {
-  console.log(a+b);
-}
-sum(1,3);
-class max {
-  add(){
-    console.log("123");
+import React,{Component} from 'react'
+import ReactDOM,{render} from 'react-dom'
+
+class MyComponent extends Component {
+  render(){
+    return (<h1>hello</h1>)
   }
 }
-export default max;
+render(<MyComponent />,document.getElementById('app'))
