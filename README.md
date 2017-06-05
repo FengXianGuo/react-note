@@ -149,12 +149,105 @@ class Animal {
     (1)let局部作用域有效
     (2) const定义常量
 
-> 4.8. 模块
+> 3.8. 模块
 
     (1) export default 拿不到问题，用babel插件解决
     (2) import 重命名
       疑问： 1. exprot，module.exports,exports,export default之间都有什么关系。
-    (3) exports 和 module.exports 的区别
+
+> 3.9 exports 和 module.exports 的区别
+
+    对于每一个可执行脚本(js文件),node都会进行模块化
+    (function(){
+        exports = module.exports = {};
+        return module.exports;
+    })()
+
+    从上面我们可以看出
+
+    1. 所有脚本导出的都是对象
+    2. 当其他文件引用当前脚本时，拿到的是module.exports；
+    3. exports 实际上是module.exports的引用；
+
+    如何使用:
+    (1)exports:
+        exports.a = 1;
+        exports.fn = function(){
+            console.log("this is fn")
+        }
+    (2)module.exports:
+        module.exports.a = 1;
+        module.exports.fn = function(){
+            console.log("this is fn")
+        }
+    注意：
+    (1)
+        exports.b = 1;
+        module.exports = {
+            a = 1
+        }
+        如上，导出的内容将没有b;
+    (2)
+        exports = {
+            b : 1
+        };
+        module.exports.a = 1;
+        如上，导出的内容将没有b;
+    (3)
+        如果想要导出一个对象呢？
+
+        使用exports.obj = {};
+        在引用的时候:
+        var o = require("./obj");
+        取用的话，需要o.obj才能拿到想要的;
+
+        如何才能直接拿到obj呢？
+        exports = {}?
+        这样做没有任何意义，因为暴露的是module.exports;
+
+        答案：module.exports = {
+            a : 1
+        }
+
+        因为node最终暴露的是module.exports，所以改写module才是正确的方案;
+
+    总结：exports是module.exports的快捷方式，exports主要是用暴露一个个属性，而module.exports则是用来暴露一个类，一个对象。
+
+> 3.10 es6中的export和import
+
+    （1）export命令，向外面暴露的是一个对象；
+
+        输出一个变量：
+        export var name = "guo"，向外输出一个变量
+
+        输出多个变量：
+        export {name,age}
+
+    （2）import命令，用来引用一个对象；
+
+        解构赋值提取引用：
+        import {name, age} from './test.js'
+
+        拿到暴露的模块对象：
+            （1）import * as test form './test.js';
+             上面代码的意思是，拿到暴露的所有内容，重命名为test对象。
+
+            （2） module test from 'test.js'
+             以指令的方式获取整个暴露对象;
+
+    （3）export default
+
+        使用方法:
+        export default function getAge() {}
+
+        1. 每一个js文件只能使用一次export default;
+        2. import的时候可以随意重命名;
+        3. import的时候不再需要花括号;
+
+        总结：通过export defaul会将输出的内容变成一个default变量，可以随意重命名，而且不需要从对象中提取，导入时候不再需要花括号。
+
+        注：一条import 语句可以同时导入默认方法和其它变量:
+        import defaultMethod, { otherMethod } from 'xxx.js';
 
 
 ### 四，webpack
@@ -164,4 +257,27 @@ class Animal {
 
 > 4.2. 基本命令
 
-    npm i webpack --save-dev
+    1. npm i webpack --save-dev
+    2. 根目录下创建webpack.config.js文件
+
+    var path = require('path');
+    var webpack = require('webpack');
+    var config = {
+        //配置入口
+      entry : path.resolve(__dirname,"./src/index.js"),
+        //配置输出
+      output : {
+        path:path.resolve(__dirname,"./dist"),
+        filename:"bundle.js"
+      }
+    }
+    //把配置文件暴露出去;
+    module.exports = config;
+
+    3. npm script 中添加命令build：webpack --progress --colors
+
+> 4.3. es6
+
+    1. 创建.babelrc文件
+    2. 安装 npm i babel-loader babel-core babel-preset-es2015
+    3. 配置.babelrc文件
