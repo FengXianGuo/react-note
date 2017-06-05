@@ -46,7 +46,7 @@
         ```
         npm run dev
         ```
-    2.箭头函数
+    2. 箭头函数
         1. 无函数体箭头函数
             1. 无参数 var fn = （)=>"无参数箭头函数"；
                 - 上面的例子，（）表示参数位置，无参数则（）中没有内容，=>直接跟返回值，可以是字符串，也可以是表达式
@@ -60,3 +60,62 @@
               var m = a+3;
               return m;
             }
+            - {}表示函数体，如果需要用到函数体，并且需要返回值，那么就要显式的书写return
+        3. 注：箭头函数中的this共享父作用域的关键字this；
+    3. 类
+        1. 通过class创建类，内部通过constructor来定义内部属性，通过直接书写方法，定义prototype上的公共方法
+        ```
+        class Animal {
+          constructor(name,age){
+            this.name = name;
+            this.age = age;
+          }
+          getMessage(){
+            console.log(this.name + 'is' + this.age);
+          }
+        }
+        ```
+
+        2. 类的继承，通过super
+        3. static，是类的静态方法，可以理解为对象的工具方法，不是实例上的属性，而是类上面的属性，想要调用直接通过类来使用。
+    4. 对象字面量
+        1. 以往对象中的方法，例如
+            {
+              getName ： function（){
+                console.log("test")
+              }
+            }
+            es6增强后，
+            可以写成
+            {
+              getName(){
+                console.log("test")
+                //不需要再书写键值
+              }
+            }
+        2. 增强后的proto，可以通过再对象中，直接书写__proto__:others,来快捷的改写对象原型
+          var obj = {
+            __proto__:others,
+          }
+        3. 简化了定义属性的写法，可以直接通过书写属性名的方式，来定义属性。
+          var a = 1
+          var b = "2"
+          var fn = (m,n)=>console.log(m+n)
+          var obj = {a,b,fn};极大的优化了代码可读性
+
+      5. 解构赋值
+          1. 数组的解构赋值 var [dog] = ["dog","cat"]
+          2. 对象的解构赋值 var obj = {a:1,fn:function(){console.log(1)}}
+              var {a,fn} = obj;
+      6. 函数的扩展
+          1. 默认值 function(name = "guo",age = "19"),如果参数没有传入，则使用默认参数
+          2. 任意参数rest function（obj,...keys){},其中key是剩余参数的所有
+          3. 扩展操作 var arr = [1,2,3,4] console.log(Math.max(...arr));复制 var newarr = [...arr]
+      7. let和const
+          1. let局部作用域有效
+          2. const定义常量
+      8. 模块
+          1. export default 拿不到问题，用babel插件解决
+          2. import 重命名
+          疑问： 1. exprot，module.exports,exports,export default之间都有什么关系。
+          3. 需要重点学习，绝对要搞清楚。
