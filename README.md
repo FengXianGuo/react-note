@@ -154,7 +154,8 @@ class Animal {
     (1) export default 拿不到问题，用babel插件解决
     (2) import 重命名
       疑问： 1. exprot，module.exports,exports,export default之间都有什么关系。
-    (3) 需要重点学习，绝对要搞清楚。
+    (3) exports 和 module.exports 的区别
+
 
 ### 四，webpack
 > 4.1 webpack介绍

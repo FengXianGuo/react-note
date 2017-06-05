@@ -68,17 +68,34 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  document.body.innerHTML = "搭建开发环境";
+};
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var component = __webpack_require__(0);
-component()
+"use strict";
 
+
+var _component = __webpack_require__(0);
+
+var _component2 = _interopRequireDefault(_component);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+console.log(_component2.default);
+// component()
 
 /***/ })
 /******/ ]);

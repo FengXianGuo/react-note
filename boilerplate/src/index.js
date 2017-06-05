@@ -1,2 +1,3 @@
-var component = require('./component');
-component()
+import component from './component';
+console.log(component);
+// component()
