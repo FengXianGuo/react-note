@@ -73,11 +73,7 @@
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function () {
+module.exports = function () {
   document.body.innerHTML = "搭建开发环境";
 };
 
@@ -94,8 +90,7 @@ var _component2 = _interopRequireDefault(_component);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-console.log(_component2.default);
-// component()
+(0, _component2.default)();
 
 /***/ })
 /******/ ]);
