@@ -1,2 +1,5 @@
-import component from './component';
-component()
+import React,{Components} from 'react'
+import {render} from 'react-dom'
+import App from './containers/App'
+
+render(<App />,document.getElementById('app'))

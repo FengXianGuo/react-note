@@ -281,3 +281,101 @@ class Animal {
     1. 创建.babelrc文件
     2. 安装 npm i babel-loader babel-core babel-preset-es2015
     3. 配置.babelrc文件
+    {
+        "preset":["es2015"]
+    }
+    4.webpack.config.js中配置module
+    var config = {
+      entry : path.resolve(__dirname,"./src/index.js"),
+      output : {
+        path:path.resolve(__dirname,"./dist"),
+        filename:"bundle.js"
+      },
+      //这里配置了loaders
+      module:{
+        loaders:[
+          {
+            test:/\.js$/,
+            loader:'babel-loader',
+            //exclude是用来声明哪些文件不需要babel-loader进行处理
+            exclude:/node_modules/
+          }
+        ]
+      }
+    }
+> 4.4. 自动产出html
+
+    1. 安装插件
+    npm i html-webpack-plugin --save-dev
+
+    2. 在webpack.config.js中进行引入和配置
+    var htmlWebpackPlugin = require('html-webpack-plugin');
+
+    3. 在config中添加配置
+    plugins:[
+        new htmlWebpackPlugin({
+            title:'搭建前端工作流',
+            template : './src/index.html',
+        })
+    ]
+
+> 4.5 启动本地服务
+
+    webpack-dev-server是基于express的微型服务
+
+    1. 安装
+    npm i webpack-dev-server --save-dev
+
+    2. 配置npm script
+    "dev" : "webpack-dev-server --progress --port 8080 --content-base dist --hot"
+    其中：
+    "--progress" : 显示进度
+    "--port" : 设置端口 8080
+    "--content-base" : 设置启动跟节点
+    "--hot" : 热更新
+
+    3. 端口占用问题
+    通过lsof -i:8080,查看进程，list open files(列出当前系统打开文件)
+    查看到进程的pid后
+    通过kill -9 pid来结束进程
+
+    4.除了命令行以外，还可以通过设置webpack.config.js
+        (1)配置npm script
+             "dev" : "webpack-dev-server --progress"
+        (2)在webpack.config.js文件中配置
+        ...
+        devServer:{
+            contentBase:"dist",//设置启动节点
+            inline:true,//设置改变自动刷新
+            port:8080,//设置端口
+            stats:{
+                colors:true
+            }
+        }
+> 4.6 在webpack中加载css
+
+    1. 安装
+    npm i  npm i style-loader css-loader --save-dev
+
+    其中：
+    "css-loader" ：会遍历css文件，找到所有的url(...)并且处理。
+    "style-loader" ：会把所有的样式插入到页面的一个style中。
+
+    2. 注意，import默认找的是index.js,所以如果引用一个组件，组件中又index.js的话，可以直接引用它的目录。
+
+    3. loader得目的：
+    上述样式loader的目的是，将样式整合进js文件;
+    最后通过<style>css</style>将样式插入到页面。
+
+    4，使用前需要配置：
+    {
+        test:/\.less$/,
+        loader:['style-loader','css-loader','less-loader'],
+        include:path.resolve(__dirname,"src")
+    }
+    上述内容是匹配less文件；
+    如果匹配，则先执行less-loader，将less变成css；
+    然后执行css-loader分析css中的background；
+    最后执行style-loader将样式插入到一个style标签中。
+    5，文件中引用：
+    import 'css path'即可
