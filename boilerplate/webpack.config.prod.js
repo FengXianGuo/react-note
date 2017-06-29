@@ -1,19 +1,13 @@
 var path = require('path');
 var webpack = require('webpack');
 var htmlWebpackPlugin = require('html-webpack-plugin');
-var openBrowserPlugin = require('open-browser-webpack-plugin');
-var extractTextPlugin = require('extract-text-webpack-plugin');
+var uglifyPlugin = webpack.optimize.UglifyJsPlugin;
 
 var config = {
   entry : path.resolve(__dirname,"./src/index.js"),
   output : {
     path:path.resolve(__dirname,"./dist"),
-    filename:"bundle.js?[hash:6]"
-  },
-  devServer:{
-    contentBase: "dist",
-    inline:true,
-    port : 3000,
+    filename:"bundle.js"
   },
   module:{
     loaders:[
@@ -24,18 +18,12 @@ var config = {
       },
       {
         test:/\.css$/,
-        loader:extractTextPlugin.extract({
-          fallback:'style-loader',
-          use:'css-loader'
-        }),
+        loader:['style-loader','css-loader'],
         include:path.resolve(__dirname,"src")
       },
       {
         test:/\.less$/,
-        loader:extractTextPlugin.extract({
-          fallback:'style-loader',
-          use:'css-loader'
-        }),
+        loader:['style-loader','css-loader','less-loader'],
         include:path.resolve(__dirname,"src")
       }
     ]
@@ -45,8 +33,10 @@ var config = {
       title:"搭建前端工作流",
       template:'./src/index.html'
     }),
-    new extractTextPlugin("styles.css"),
-    new openBrowserPlugin({url:"http://localhost:3000"})
+    new uglifyPlugin({
+      compress:false
+    }),
+    new webpack.BannerPlugin('作者：郭丰羡\n日期：2017-6-27')
   ]
 }
 module.exports = config;
